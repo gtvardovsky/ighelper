@@ -1,1 +1,1 @@
-bot: python Func.py
+web: python Func.py
