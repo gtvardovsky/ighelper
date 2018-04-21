@@ -53,7 +53,7 @@ def Abz(message):
 
 @bot.message_handler(func=lambda message: check == 'photo')
 def Text(message):
-    if (message.text == 'Абзацы' or (message.text == '💬'):
+    if (message.text == 'Абзацы') or (message.text == '💬'):
         global check
         chek = ''
         Choose_menu(message)
