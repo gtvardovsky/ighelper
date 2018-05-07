@@ -18,7 +18,7 @@ def info(message):
     keyboard.row('Абзацы','Фото поста')
     keyboard.row('💬')
     bot.send_message(message.chat.id,'С чем тебе помочь?',reply_markup = keyboard)
-    botan.track(config.botan_key, message.chat.id, message, 'Запуск бота')
+    botan.track(botan_key, message.chat.id, message, 'Запуск бота')
 
 
 @bot.message_handler(func=lambda message: check == 'callBack')
@@ -80,11 +80,11 @@ def Choose_menu(message):
         bot.send_message(message.chat.id,'Пришли мне текст, разделенный обычными абзацами\n(Я имею в виду, чтобы между абзацами была пустая строка)')
         global check
         check = 'abz'
-        botan.track(config.botan_key, message.chat.id, message, 'Абзацы')
+        botan.track(botan_key, message.chat.id, message, 'Абзацы')
     if (message.text == 'Фото поста'):
         bot.send_message(message.chat.id,'Пришли мне ссылку на пост из instagram\nАккаунт должен быть окрытым')
         check = "photo"
-        botan.track(config.botan_key, message.chat.id, message, 'Фото поста')
+        botan.track(botan_key, message.chat.id, message, 'Фото поста')
     if (message.text == '💬'):
         bot.send_message(message.chat.id,'Если ты обнаружил(а) какую-то неисправность, хочешь что-то предложить или задать вопрос - напиши 👇')
         check = "callBack"
