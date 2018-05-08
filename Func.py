@@ -1,7 +1,7 @@
-# -*- coding: utf-8 -*-
 import telebot
 import requests
 import io
+from opengraph import OpenGraph
 from telebot import types
 import botan
 TOKEN = '516292907:AAFBu0-NJvhs0xTbGtIkHEAzhpZIe6uQNSk'
@@ -15,15 +15,15 @@ botan_key = '9e6aba31-0d68-4d71-8734-acacca48f792'
 @bot.message_handler(commands=['start'])
 def info(message):
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard = True)
-    keyboard.row('Абзацы','Фото поста')
-    keyboard.row('💬')
+    keyboard.row('Фото поста','Абзацы')
+    keyboard.row('Видео поста','💬')
     bot.send_message(message.chat.id,'С чем тебе помочь?',reply_markup = keyboard)
     botan.track(botan_key, message.chat.id, message, 'Запуск бота')
 
 
 @bot.message_handler(func=lambda message: check == 'callBack')
 def callBack(message):
-    if (message.text == 'Фото поста') or (message.text == 'Абзацы') or (message.text == '💬'):
+    if (message.text == 'Фото поста') or (message.text == 'Абзацы') or (message.text == '💬') or (message.text == 'Видео поста'):
         global check
         chek = ''
         Choose_menu(message)
@@ -38,7 +38,7 @@ def callBack(message):
 
 @bot.message_handler(func=lambda message: check == 'abz')
 def Abz(message):
-    if (message.text == 'Фото поста') or (message.text == 'Абзацы') or (message.text == '💬'):
+    if (message.text == 'Фото поста') or (message.text == '💬') or (message.text == 'Видео поста') :
         global check
         chek = ''
         Choose_menu(message)
@@ -57,7 +57,7 @@ def Abz(message):
 
 @bot.message_handler(func=lambda message: check == 'photo')
 def Text(message):
-    if (message.text == 'Абзацы') or (message.text == '💬'):
+    if (message.text == 'Абзацы') or (message.text == '💬') or (message.text == 'Видео поста'):
         global check
         chek = ''
         Choose_menu(message)
@@ -72,10 +72,37 @@ def Text(message):
             bot.send_message(message.chat.id,' Либо аккаунт закрыт, либо с твоей ссылкой что-то не так\nПроверь ее и пришли заново')
     else :
         bot.send_message(message.chat.id,'Пришли мне ссылку на фото из INSTAGRAM')
+        
+@bot.message_handler(func=lambda message: check == 'video')
+def Video(message):
+    if (message.text == 'Абзацы') or (message.text == '💬') or (message.text == 'Фото поста'):
+        global check
+        chek = ''
+        Choose_menu(message)
+        return
+    url = message.text
+    if (url.find("www.instagram.com")!= -1) or (url.find ("instagram.com") != -1):
+        video = OpenGraph(url = url)
+        try:
+            url_video = str(video.video)
+            response = requests.get(url_video)
+            video = ('video.mp4', io.BytesIO(response.content))
+            bot.send_message(message.chat.id,'Секунду, загружаю...')
+            bot.send_video(message.chat.id, video)
+        except:
+            bot.send_message(message.chat.id,' Либо аккаунт закрыт, либо с твоей ссылкой что-то не так\nПроверь ее и пришли заново')
+    else :
+        bot.send_message(message.chat.id,'Пришли мне ссылку на видео из INSTAGRAM')
+    chek = ''
 
 
 @bot.message_handler(content_types=["text"])
 def Choose_menu(message):
+    if (message.text == 'Видео поста'):
+        bot.send_message(message.chat.id,'Пришли мне ссылку на видео из instagram\nАккаунт должен быть окрытым')
+        global check
+        check = 'video'
+        botan.track(config.botan_key, message.chat.id, message, 'Видео')
     if (message.text == 'Абзацы'):
         bot.send_message(message.chat.id,'Пришли мне текст, разделенный обычными абзацами\n(Я имею в виду, чтобы между абзацами была пустая строка)')
         global check
