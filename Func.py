@@ -102,7 +102,7 @@ def Choose_menu(message):
         bot.send_message(message.chat.id,'Пришли мне ссылку на видео из instagram\nАккаунт должен быть окрытым')
         global check
         check = 'video'
-        botan.track(config.botan_key, message.chat.id, message, 'Видео')
+        botan.track(botan_key, message.chat.id, message, 'Видео')
     if (message.text == 'Абзацы'):
         bot.send_message(message.chat.id,'Пришли мне текст, разделенный обычными абзацами\n(Я имею в виду, чтобы между абзацами была пустая строка)')
         check = 'abz'
