@@ -105,7 +105,6 @@ def Choose_menu(message):
         botan.track(config.botan_key, message.chat.id, message, 'Видео')
     if (message.text == 'Абзацы'):
         bot.send_message(message.chat.id,'Пришли мне текст, разделенный обычными абзацами\n(Я имею в виду, чтобы между абзацами была пустая строка)')
-        global check
         check = 'abz'
         botan.track(botan_key, message.chat.id, message, 'Абзацы')
     if (message.text == 'Фото поста'):
