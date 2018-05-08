@@ -4,3 +4,4 @@ idna==2.6
 requests==2.18.4
 pytelegrambotapi == 3.6.2
 urllib3==1.22
+python-opengraph==0.0.2
